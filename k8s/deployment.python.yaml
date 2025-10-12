@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: creacion-agente-mcp
+  labels:
+    app: creacion-agente-mcp
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: creacion-agente-mcp
+  template:
+    metadata:
+      labels:
+        app: creacion-agente-mcp
+        version: v1
+    spec:
+      containers:
+      - name: mcp-server
+        image: creacion-agente-mcp:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: health
+          protocol: TCP
+        env:
+        - name: AZURE_AI_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: azure-credentials
+              key: endpoint
+        - name: AZURE_AI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azure-credentials
+              key: api-key
+              optional: true
+        - name: AZURE_TENANT_ID
+          valueFrom:
+            secretKeyRef:
+              name: azure-credentials
+              key: tenant-id
+              optional: true
+        - name: AZURE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: azure-credentials
+              key: client-id
+              optional: true
+        - name: AZURE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: azure-credentials
+              key: client-secret
+              optional: true
+        - name: USE_MANAGED_IDENTITY
+          value: "false"
+        - name: AZURE_AI_API_VERSION
+          value: "2025-05-01"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
+      securityContext:
+        fsGroup: 1001
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
