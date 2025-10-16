@@ -25,12 +25,19 @@ async def main():
         client_secret=settings.azure_client_secret,
         use_managed_identity=settings.use_managed_identity,
     )
+    
+    print("🔧 Configuración cargada:")
+    print(f"  Endpoint: {config.endpoint}")
+    print(f"  API Version: {config.api_version}")
+    print(f"  Tenant ID: {config.tenant_id}")
+    print(f"  Client ID: {config.client_id}")
+    print(f"  Use Managed Identity: {config.use_managed_identity}")
 
     # Inicializar cliente Azure
     azure_client = AzureFoundryClient(config)
 
     # Usar un nombre de proyecto predefinido (puedes cambiarlo)
-    project_name = "agentes-test"
+    project_name = "AGENTES_MCP"
     print(f"\n📌 Usando proyecto: {project_name}")
 
     # Opcional: comentar si quieres listar proyectos
@@ -51,7 +58,7 @@ async def main():
     # Datos para crear el agente AGENTE_WARP
     agent_data = CreateAgentDTO(
         project_name=project_name,
-        name="AGENTE_WARP",
+        name="AGENTE_WARP_6",
         model_name="gpt-4o",
         provider="azure_openai",
         temperature=0.7,
