@@ -58,7 +58,7 @@ async def main():
     # Datos para crear el agente AGENTE_WARP
     agent_data = CreateAgentDTO(
         project_name=project_name,
-        name="AGENTE_WARP_6",
+        name="AGENTE_VSCODE",
         model_name="gpt-4o",
         provider="azure_openai",
         temperature=0.7,

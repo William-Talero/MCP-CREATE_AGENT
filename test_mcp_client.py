@@ -47,7 +47,7 @@ async def main():
 
             agent_data = {
                 "projectName": "AGENTES_MCP",
-                "name": "AGENTE_WARP_5",
+                "name": "AGENTE_WARP_8",
                 "modelName": "gpt-4o",
                 "provider": "azure_openai",
                 "temperature": 0.7,
